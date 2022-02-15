@@ -1,3 +1,5 @@
+import React, { useReducer, useRef } from 'react';
+
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -6,37 +8,83 @@ import New from './pages/New';
 import Edit from './pages/Edit';
 import Diary from './pages/Diary';
 
-// Components
-import MyButton from './components/MyButton';
-import MyHeader from './components/MyHeader';
+const reducer = (state, action) => {
+  let newState = [];
+
+  switch (action.type) {
+    case 'INIT': {
+      return action.data;
+    }
+    case 'CREATE': {
+      return [action.data, ...state];
+    }
+    case 'REMOVE': {
+      return state.filter((it) => it.id !== action.targetId);
+    }
+    case 'EDIT': {
+      return state.map((it) => (it.id === action.data.id ? action.data : it));
+    }
+    default:
+      return state;
+  }
+};
+
+export const DiaryStateContext = React.createContext();
 
 function App() {
+  const [data, dispatch] = useReducer(reducer, []);
+  const dataId = useRef(0);
+
+  const onCreate = (date, content, emotion) => {
+    dispatch({
+      type: 'CREATE',
+      data: {
+        id: dataId.current++,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
+
+  const onRemove = (targetId) => {
+    dispatch({
+      type: 'REMOVE',
+      targetId,
+    });
+  };
+
+  const onEdit = (targetId, date, content, emotion) => {
+    dispatch({
+      type: 'EDIT',
+      data: {
+        id: targetId,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
+
   return (
-    <BrowserRouter>
-      <div className="App">
-        <MyHeader
-          headerText={'App'}
-          leftChild={<MyButton text={'왼쪽 버튼'} />}
-          leftChild={<MyButton text={'오른쪽 버튼'} />}
-        />
+    <DiaryStateContext.Provider value={data}>
+      <BrowserRouter>
+        <div className="App">
+          <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
+          <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
+          <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
+          <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt="" />
+          <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt="" />
 
-        <MyButton text={'버튼'} type={'positive'} />
-        <MyButton text={'버튼'} type={'negative'} />
-        <MyButton text={'버튼'} />
-        <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
-        <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
-        <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
-        <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt="" />
-        <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt="" />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/new" element={<New />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/diary/:id" element={<Diary />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/new" element={<New />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/diary/:id" element={<Diary />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </DiaryStateContext.Provider>
   );
 }
 
