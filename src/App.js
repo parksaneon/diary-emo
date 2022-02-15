@@ -16,20 +16,26 @@ const reducer = (state, action) => {
       return action.data;
     }
     case 'CREATE': {
-      return [action.data, ...state];
+      newState = [action.data, ...state];
+      break;
     }
     case 'REMOVE': {
-      return state.filter((it) => it.id !== action.targetId);
+      newState = state.filter((it) => it.id !== action.targetId);
+      break;
     }
     case 'EDIT': {
-      return state.map((it) => (it.id === action.data.id ? action.data : it));
+      newState = state.map((it) => (it.id === action.data.id ? action.data : it));
+      break;
     }
     default:
       return state;
   }
+
+  return newState;
 };
 
 export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
@@ -68,22 +74,24 @@ function App() {
 
   return (
     <DiaryStateContext.Provider value={data}>
-      <BrowserRouter>
-        <div className="App">
-          <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
-          <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
-          <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
-          <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt="" />
-          <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt="" />
+      <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
+        <BrowserRouter>
+          <div className="App">
+            <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt="" />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt="" />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/new" element={<New />} />
-            <Route path="/edit" element={<Edit />} />
-            <Route path="/diary/:id" element={<Diary />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/new" element={<New />} />
+              <Route path="/edit" element={<Edit />} />
+              <Route path="/diary/:id" element={<Diary />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </DiaryDispatchContext.Provider>
     </DiaryStateContext.Provider>
   );
 }
