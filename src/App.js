@@ -8,14 +8,21 @@ import Diary from './pages/Diary';
 
 // Components
 import MyButton from './components/MyButton';
+import MyHeader from './components/MyHeader';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <h2>App.js</h2>
+        <MyHeader
+          headerText={'App'}
+          leftChild={<MyButton text={'왼쪽 버튼'} />}
+          leftChild={<MyButton text={'오른쪽 버튼'} />}
+        />
 
         <MyButton text={'버튼'} type={'positive'} />
+        <MyButton text={'버튼'} type={'negative'} />
+        <MyButton text={'버튼'} />
         <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
         <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
         <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
