@@ -1,7 +1,17 @@
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+
+import Home from './pages/Home';
+import New from './pages/New';
+import Edit from './pages/Edit';
+import Diary from './pages/Diary';
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <BrowserRouter>
+      <div className="App"></div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
