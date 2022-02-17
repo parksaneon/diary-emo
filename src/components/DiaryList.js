@@ -26,9 +26,12 @@ const DiaryList = ({ diaryList }) => {
   const [filter, setFilter] = useState('all');
 
   const getProcessedDiaryList = () => {
+    const filterCallBack = ({ emotion }) => (filter === 'good' ? parseInt(emotion) <= 3 : parseInt(emotion) > 3);
     const compare = (a, b) =>
       sortType === 'lastest' ? parseInt(b.date) - parseInt(a.date) : parseInt(a.date) - parseInt(b.date);
+
     const copyList = [...diaryList]; // JSON.parse(JSON.stringify(diaryList));
+    const filteredList = filter === 'all' ? copyList : copyList.filter(filterCallBack);
 
     return copyList.sort(compare);
   };
@@ -37,8 +40,10 @@ const DiaryList = ({ diaryList }) => {
     <ul>
       <ControlMenu value={sortType} onChange={setSortType} optionList={sortOptionList} />
       <ControlMenu value={filter} onChange={setFilter} optionList={filterOptionList} />
-      {getProcessedDiaryList().map(diary => (
-        <li key={diary.id}>{diary.content}</li>
+      {getProcessedDiaryList().map(({ id, content, emotion }) => (
+        <li key={id}>
+          {content} {emotion}
+        </li>
       ))}
     </ul>
   );
