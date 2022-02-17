@@ -9,7 +9,7 @@ const MyButton = ({ text, type, onClick }) => {
 };
 
 MyButton.defaultProps = {
-  type: 'default',
+  type: 'default'
 };
 
 export default MyButton;
