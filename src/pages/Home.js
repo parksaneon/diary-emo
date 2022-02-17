@@ -34,6 +34,7 @@ const Home = () => {
         leftChild={<MyButton text={'<'} onClick={decreaseMonth} />}
         rightChild={<MyButton text={'>'} onClick={increaseMonth} />}
       />
+      <DiaryList diaryList={data} />
     </div>
   );
 };
