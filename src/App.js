@@ -20,11 +20,11 @@ const reducer = (state, action) => {
       break;
     }
     case 'REMOVE': {
-      newState = state.filter((it) => it.id !== action.targetId);
+      newState = state.filter(it => it.id !== action.targetId);
       break;
     }
     case 'EDIT': {
-      newState = state.map((it) => (it.id === action.data.id ? action.data : it));
+      newState = state.map(it => (it.id === action.data.id ? action.data : it));
       break;
     }
     default:
@@ -37,6 +37,14 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
+const dummyData = [
+  { id: 1, emotion: 1, content: '오늘의 일기 1번', date: 1645062988413 },
+  { id: 2, emotion: 2, content: '오늘의 일기 2번', date: 1645062988414 },
+  { id: 3, emotion: 3, content: '오늘의 일기 3번', date: 1645062988415 },
+  { id: 4, emotion: 5, content: '오늘의 일기 4번', date: 1645062988416 },
+  { id: 5, emotion: 5, content: '오늘의 일기 5번', date: 1645062988417 }
+];
+
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
@@ -48,15 +56,15 @@ function App() {
         id: dataId.current++,
         date: new Date(date).getTime(),
         content,
-        emotion,
-      },
+        emotion
+      }
     });
   };
 
-  const onRemove = (targetId) => {
+  const onRemove = targetId => {
     dispatch({
       type: 'REMOVE',
-      targetId,
+      targetId
     });
   };
 
@@ -67,8 +75,8 @@ function App() {
         id: targetId,
         date: new Date(date).getTime(),
         content,
-        emotion,
-      },
+        emotion
+      }
     });
   };
 
@@ -76,18 +84,18 @@ function App() {
     <DiaryStateContext.Provider value={data}>
       <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
         <BrowserRouter>
-          <div className="App">
-            <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt="" />
-            <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt="" />
-            <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt="" />
-            <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt="" />
-            <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt="" />
+          <div className='App'>
+            <img src={process.env.PUBLIC_URL + '/assets/emotion1.png'} alt='' />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion2.png'} alt='' />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion3.png'} alt='' />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion4.png'} alt='' />
+            <img src={process.env.PUBLIC_URL + '/assets/emotion5.png'} alt='' />
 
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/new" element={<New />} />
-              <Route path="/edit" element={<Edit />} />
-              <Route path="/diary/:id" element={<Diary />} />
+              <Route path='/' element={<Home />} />
+              <Route path='/new' element={<New />} />
+              <Route path='/edit' element={<Edit />} />
+              <Route path='/diary/:id' element={<Diary />} />
             </Routes>
           </div>
         </BrowserRouter>
