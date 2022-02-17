@@ -41,16 +41,23 @@ const DiaryList = ({ diaryList }) => {
   };
 
   return (
-    <ul>
-      <ControlMenu value={sortType} onChange={setSortType} optionList={sortOptionList} />
-      <ControlMenu value={filter} onChange={setFilter} optionList={filterOptionList} />
-      <MyButton type={'positive'} text={'새 일기 쓰기'} onClick={() => navigate('/new')} />
+    <div className='DiaryList'>
+      <div className='menu_wrapper'>
+        <div className='left_col'>
+          <ControlMenu value={sortType} onChange={setSortType} optionList={sortOptionList} />
+          <ControlMenu value={filter} onChange={setFilter} optionList={filterOptionList} />
+        </div>
+        <div className='right_col'>
+          <MyButton type={'positive'} text={'새 일기 쓰기'} onClick={() => navigate('/new')} />
+        </div>
+      </div>
+
       {getProcessedDiaryList().map(({ id, content, emotion }) => (
-        <li key={id}>
+        <div key={id}>
           {content} {emotion}
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
