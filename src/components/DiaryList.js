@@ -5,6 +5,12 @@ const sortOptionList = [
   { value: 'oldest', name: '오래된 순' }
 ];
 
+const filterOptionList = [
+  { value: 'all', name: '전부다' },
+  { value: 'good', name: '좋은 감정만' },
+  { value: 'bad', name: '안좋은 감정만' }
+];
+
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
     <select value={value} onChange={e => onChange(e.target.value)}>
@@ -17,6 +23,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
 
 const DiaryList = ({ diaryList }) => {
   const [sortType, setSortType] = useState('lastest');
+  const [filter, setFilter] = useState('all');
 
   const getProcessedDiaryList = () => {
     const compare = (a, b) =>
@@ -29,6 +36,7 @@ const DiaryList = ({ diaryList }) => {
   return (
     <ul>
       <ControlMenu value={sortType} onChange={setSortType} optionList={sortOptionList} />
+      <ControlMenu value={filter} onChange={setFilter} optionList={filterOptionList} />
       {getProcessedDiaryList().map(diary => (
         <li key={diary.id}>{diary.content}</li>
       ))}
