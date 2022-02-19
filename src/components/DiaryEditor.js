@@ -22,7 +22,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const [content, setContent] = useState('');
   const contentRef = useRef();
   const navigate = useNavigate();
-  const { onCreate } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
 
   const handleClickEmotion = emotion => setEmotion(emotion);
 
@@ -32,7 +32,14 @@ const DiaryEditor = ({ isEdit, originData }) => {
       return;
     }
 
-    onCreate(date, content, emotion);
+    if (window.confirm(isEdit ? '일기를 수정하시겠습니까?' : '새로운 일기를 작성하시겠습니까?')) {
+      if (isEdit) {
+        onEdit(originData.id, date, content, emotion);
+      } else {
+        onCreate(date, content, emotion);
+      }
+    }
+
     navigate('/', { replace: true });
   };
 
@@ -45,7 +52,10 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   return (
     <div className='DiaryEditor'>
-      <MyHeader headerText='새 일기 쓰기' leftChild={<MyButton text='< 뒤로가기' onClick={() => navigate(-1)} />} />
+      <MyHeader
+        headerText={isEdit ? '일기 수정하기' : '새 일기쓰기'}
+        leftChild={<MyButton text='< 뒤로가기' onClick={() => navigate(-1)} />}
+      />
       <div>
         <section>
           <h4>오늘은 언제인가요?</h4>
