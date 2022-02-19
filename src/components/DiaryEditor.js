@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MyHeader from './MyHeader';
 import MyButton from './MyButton';
+import EmotionItem from './EmotionItem';
 
 const emotionList = [
   { emotion_id: 1, emotion_img: `${process.env.PUBLIC_URL}/assets/emotion1.png`, emotion_descript: '완전 좋음' },
@@ -31,8 +32,8 @@ const DiaryEditor = () => {
         <section>
           <h4>오늘의 감정</h4>
           <div className='input-box emotion_list_wrapper'>
-            {emotionList.map(({ emotion_id, emotion_img, emotion_descript }) => (
-              <div key={emotion_id}>{emotion_descript}</div>
+            {emotionList.map(emotion => (
+              <EmotionItem key={emotion.emotion_id} {...emotion} />
             ))}
           </div>
         </section>
