@@ -11,7 +11,7 @@ const DiaryEditor = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className='DiaryEditor'>
       <MyHeader headerText='새 일기 쓰기' leftChild={<MyButton text='< 뒤로가기' onClick={() => navigate(-1)} />} />
       <div>
         <section>
