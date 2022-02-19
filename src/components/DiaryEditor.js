@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiaryDispatchContext } from '../App';
 
@@ -16,7 +16,7 @@ const emotionList = [
 
 const getStringDate = date => date.toISOString().slice(0, 10);
 
-const DiaryEditor = () => {
+const DiaryEditor = ({ isEdit, originData }) => {
   const [date, setDate] = useState(getStringDate(new Date()));
   const [emotion, setEmotion] = useState(3);
   const [content, setContent] = useState('');
@@ -35,6 +35,13 @@ const DiaryEditor = () => {
     onCreate(date, content, emotion);
     navigate('/', { replace: true });
   };
+
+  useEffect(() => {
+    if (!isEdit) return;
+    setDate(getStringDate(new Date(parseInt(originData.date))));
+    setEmotion(originData.emotion);
+    setContent(originData.content);
+  }, [isEdit, originData]);
 
   return (
     <div className='DiaryEditor'>
