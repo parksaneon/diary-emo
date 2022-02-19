@@ -38,11 +38,7 @@ body {
   border: none;
   border-radius: 5px;
 
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-
+  padding: 10px 20px;
   font-size: 18px;
 
   white-space: nowrap;
@@ -123,10 +119,7 @@ header button {
   border-radius: 5px;
   background-color: #ececec;
 
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 20px;
 
   cursor: pointer;
   font-family: 'Nanum Pen Script';
@@ -213,10 +206,7 @@ header button {
   border-radius: 5px;
   background-color: #ececec;
 
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 20px;
 
   cursor: pointer;
   font-family: 'Nanum Pen Script';
